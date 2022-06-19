@@ -1,0 +1,8 @@
+Saper ze wszystkimi funkcjami tj:
+*Tworzenie nowej gry na planszy o dowolnych rozmiarach i dowolnej ilości bomb, generowanej losowo
+*Restart gry
+*Odkrywanie wszystkich pól dookoła w przypadku trafienia na puste pole
+*Flagowanie/odflagowywanie
+*Sprawdzanie nieoflagowanych pól dookoła wcześniej odkrytego, pod warunkiem że przynajmniej tyle znich jest oflagowane ile wynosi jego numer
+*Licznik pozostałych flag
+*Automatyczne wykrycie przegranej/wygranej

@@ -1,0 +1,4 @@
+
+Compile:
+	javac Main.java
+	

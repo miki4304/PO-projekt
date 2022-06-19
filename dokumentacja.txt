@@ -1,0 +1,56 @@
+//wszystkie funkcje mają typ void
+
+1.Main - pusta klasa tworząca gre:
+*main() - tworzy nową gre
+
+2.Game - spajanie ekranów i komunikacja między innymi klasami:
+*konstruktor() - tworzy ekran startowy i go wyświetla
+*set(int x, int y, int b) - (wywoływany jedynie z interfejsu użytkownika (Start_screen)) ustawia wymiary planszy (x, y) i ilość bomb (b) na podane przez ekran startowy jesli są prawidłowe po czy wywołuje start
+*start() - chowa przypisany do gry ekran startowy, tworzy nowaą plansze po czym ją wyświetla
+*lose() - tworzy ekran końcowy z komunikatem o przegranej i go wyświetla
+*win() - jak wyżej tylko z komunikatem o wygranej
+*restart() - (wywoływany jedynie z interfejsu użytkownika z (End_screen)) ukrywa starą plansze, tworzy nowy ekran startowy i go wyświetla
+
+3.Board - generacja i obsługa planszy:
+*konstruktor(Game g, int x, int y, int bombs) - losowo generuje plansze wraz z jej widokiem dla uzytkownika, według zasad gry saper, oraz inicjuje dodatkowe parametry planszy takie jak: 
+	*gra, do której należy plansza (g)
+	*informacja o przegranej (false)
+	*informacja ile kafelków zostało do odkrycia do wygranej z wzoru (x*y-bombs)
+*place_bombs(int x, int y, int bombs) - funkcja pomocnicza konstruktora, umiezczająca dokładnie (bombs) bomb w losowych polach z zakresu 1-x na 1-y włącznie
+*place_numbers(int x, int y) - funkcja pomocnicza konstruktora, która dla każdego pustego pola (oznaczonego numerem 0) z zakresu 1-x na 1-y włącznie ustawia jego numer na ilość bomb w jego bespośrednim sąsiedztwie tj. lewo, prawo, góra, dół i 4 skosy
+*showBoard(Boolean b) - zmienia widoczność planszy
+*PrintBoard(int x, int y) - wypisuje plansze do podanych koordynatów w konsoli (służy jedynie do debugowania)
+*show_lose() - wyświetla całą plansze (wywołuje show na każdym polu z osobna), ustawia plansze jako przegraną (lost_board = true), przekazuje grze do której przypisana jest plansza informacje o przegranej (game.lose())
+*spread(int x, int y) - odkrywa wszystkie białe pola (takie bez bomb ani liczb) wokół danego pola, rozprzestrzenia się az natrafi na pola sąsiadujące z bombami (czyli takie z liczbami) i je również odkrywa. wszystko w zakresie 1-x na 1-y włącznie  
+*checkflags(int x, int y) - jeżeli liczba flag w bezpośrednim sąsiedztwie pola x na y jest >= jego number to sprawdza (check()) wszystkie nieoflagowane pola z jego sąsiedztwa
+
+4.Tile implements ActionListener - obsługa pojedynczego pola, komunikacja między Tile_swingiem a Boardem:
+	5.Flaged implements ActionListener - komunikacjia z Tile_swingiem i obsługa flag
+	*konstruktor() - ustawia pole na nieoflagowane (bul = false)
+	*(public)actionPerformed(ActionEvent e) - flaguje/odflagowuje pole w widoku oraz zmienia licznik flag w widoku 
+*konstruktor(Board b, int x, int y, int n) - tworzy obsługe flagi na polu (Flaged), ustawia swoje koordynaty na (x) (y), numer na (n), plansze do której jest przypisany na (b), zaznacza siebie jako jeszcze nie sprawdzone, oraz tworzy swój widok (Tile_swing)
+*place_number(int x) - ustawia swój numer na (x) oraz przypisuje mu kolor w widoku 
+*show() - odkrywa pole w widoku jesli nie ma na nim bomby to zmniejsza cel planszy o 1, przy okazji sprawdza czy cel nie zostal osiagniety, jesli tak to przekazuje te informacje grze
+*check() - odflagowuje pole jesli bylo zaflagowane, przegrywa jesli bylo bombą, wywołuje spread jesli bylo puste, po prostu odkrywa jesli bylo polem graniczącym z bombą/ami
+*(public)actionPerformed(ActionEvent e) - jezeli pole jest juz odkryte to wywoluje checkflags na przypisanym do niego boardzie, w.p.p check()
+
+6.Start_screen implements ActionListener- wyswietlanie ekranu startowego, komunikacja z grą:
+*konstruktor(Game g) - przypisanie gry
+*(public)actionPerformed(ActionEvent e) - przekazanie grze wpisanych przez użytkownika parametrów gry
+*createGUI() - stworzenie i wyswietlenie interfejsu dla uzytkownika
+*hide() - ukrycie interfejsu
+
+7.End_screen implements ActionListener
+ - wyswietlanie ekranu końcowego, komunikacja z grą:
+*konstruktor(Game g, String s) - przypisanie gry i komunikatu końcowego
+*(public)actionPerformed(ActionEvent e) - przekazanie grze informacji o restarcie
+*createGUI() - stworzenie i wyswietlenie interfejsu dla uzytkownika
+*hide() -   ukrycie interfejsu
+
+8.Board_swing extends JFrame - widok planszy:
+*konstruktor(int x, int y, int bombs) - stworzenie siatki planszy
+
+9.Tile_swing extends JPanel - widok pola:
+*konstruktor(Tile t) - stworzenie widoku pola
+*setcolor_nmb(int x) - zmiana koloru liczby na polu korzystając z ctab
+*setcolor_tile(int x) - jak wyzej tylko zmiana tła
